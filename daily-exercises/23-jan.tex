@@ -1,0 +1,38 @@
+\documentclass[11pt]{article}
+\input{_preamble}
+
+\title{Daily Exercise}
+\author{Dhruman Gupta}
+\date{23rd January}
+
+\begin{document}
+
+\input{_exercise-header}
+Show that every NFA with multiple accepting states can be transformed into an equivalent NFA with exactly one accepting state. Show that every NFA with multiple initial states can be transformed into an equivalent NFA with exactly one initial state.
+
+\noindent
+\textbf{Answer:}
+
+Part 1: NFA with multiple accepting states to NFA with only one accepting state.
+
+Let $N = (Q, \Sigma, \delta, S, F)$ be an NFA with multiple accepting states. Construct $N' = (Q', \Sigma, \delta', S, F')$ such that:
+\begin{itemize}
+    \item $Q' = Q \cup \{f\}$ where $f$ is a new state not in $Q$
+    \item $\delta'(q, a) = \delta(q, a) / F$ for all $q \in Q$ and $a \in \Sigma \cup \{\epsilon\}$
+    \item $\delta'(q, \epsilon) = \{f\}$ for all $q \in F$ and $a \in \Sigma$
+    \item $\delta'(f, a) = \bigcup_{q \in F} \delta(q, a)$ for all $a \in \Sigma$
+\end{itemize}
+
+Part 2: NFA with multiple initial states to NFA with only one initial state.
+
+Let $N = (Q, \Sigma, \delta, S, F)$ be an NFA with multiple initial states. Construct $N' = (Q', \Sigma, \delta', S', F)$ such that:
+\begin{itemize}
+    \item $Q' = Q \cup \{s\}$ where $s$ is a new state not in $Q$
+    \item $\delta'(q, a) = \delta(q, a)$ for all $q \in Q$ and $a \in \Sigma \cup \{\epsilon\}$
+    \item $\delta'(s, \epsilon) = \bigcup_{q \in S} \delta(q, \epsilon) \cup S$
+    \item $S' = \{s\}$
+\end{itemize}
+
+I will typeset the proofs for these later.
+
+\end{document}
