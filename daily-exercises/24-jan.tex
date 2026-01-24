@@ -1,0 +1,34 @@
+\documentclass[11pt]{article}
+\input{_preamble}
+
+\title{Daily Exercise}
+\author{Dhruman Gupta}
+\date{23rd January}
+
+\begin{document}
+
+\input{_exercise-header}
+Given a regular language L as a DFA, construct a DFA for the reverse of the language. Show that there is a family of languages $L_n$ with DFA of size $O(n)$ such that any DFA for the reversed language reverse($L_n$) has size $\geq 2^n$.
+
+\textbf{Answer:}
+
+We know that there is an equivalence in DFAs and NFAs. Given a DFA $M$, construct an equivalent NFA $N = \left( Q, \Sigma, \Delta, S, F \right)$ such that $L(N) = L(M)$.
+
+Now, construct the NFA $N' = \left( Q, \Sigma, \Delta', F, S \right)$ where $q' \in \Delta(q, a) \iff q \in \Delta(q', a)$. As we saw in class, this is equivalent to the reverse of the language.
+
+Now, generate an equivalent DFA $M'$ for $N'$. This is a DFA with the same language as $N'$. Now, need to prove that $M'$ must have size $\geq 2^n$.
+
+Consider the language $L = \left\{ \text{the $n$th character is a} \right\}$ over the alphabet $\left\{ a, b \right\}$. This is a regular language, and the DFA for it is of size $O(n)$. Now, the reverse of this language is $L' = \left\{ \text{the $n$th last character is a} \right\}$.
+
+Let $M$ be the DFA for $L$. Let $M'$ be the DFA for $L'$. We know that $M$ has $O(n)$ states. For the sake of contradiction, assume that $M'$ has size $< 2^n$. 
+
+Now, consider the set $W$ of all $n$ length words. This has length $2^n$. By the pigeonhole principle, there must be two distinct words $w_1, w_2 \in W$ such that $w_1 \neq w_2$ and $\delta^*(s, w_1) = \delta^*(s, w_2)$, where $\delta^*$ is the extended transition function.
+
+Let $k$ be the first position at which $w_1$ and $w_2$ differ. Construct $w_3 = a^{k-1}$. Now, define $u = w_1w_3$ and $v = w_2w_3$. Both $u$ and $v$ have length $n + k - 1$, and are different.
+
+As $\delta^*(s, w_1) = \delta^*(s, w_2)$, a simple induction argument shows that $\delta^*(s, u) = \delta^*(s, v)$.
+
+The $n^{th}$ last character of $u$ and $v$ are $(w_1)_k$ and $(w_2)_k$ respectively (the $k^{th}$ character). Since these are different, one must be $a$ and the other must be $b$. Hence, only one should be accepted by $M'$. However, this implies that $M'$ accepts both $u$ and $v$, which is a contradiction.
+
+Hence, $M'$ must have size $\geq 2^n$.
+\end{document}
