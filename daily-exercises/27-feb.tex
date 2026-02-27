@@ -1,0 +1,48 @@
+\documentclass[11pt]{article}
+\input{_preamble}
+
+\title{Daily Exercise}
+\author{Dhruman Gupta}
+\date{27th Feb}
+
+\begin{document}
+
+\input{_exercise-header}
+A Random Access Machine consists of a finite state machine (control unit), a finite number of registers for temporary storage, and an unbounded sequence of memory cells that can store integers. Unlike a Turing machine, which accesses memory sequentially along a tape, a RAM can directly access any memory cell in a single step, hence the term "random access." The machine operates by executing a sequence of instructions, which include arithmetic operations (such as addition, subtraction, and multiplication), data transfer between registers and memory cells, and conditional branching based on the contents of registers. Show that RAM is computationally equivalent to a deterministic Turing machine.
+
+\textbf{Answer:}
+
+Let M be a turing machine. We will construct a RAM M' that is equivalent to M.
+
+In the memory cells, keep the tape of the Turing machine, in the same order. At any given time, there is only a finite non-null symbols on the tape, and thus can be realised in the memory cells.
+
+In register 1, keep track of the current head position of the Turing machine. In register 2, keep track of the current state of the Turing machine.
+
+Now, to simulate a step of the Turing machine, look at the current head position from register 1, and the current state from register 2. The turing machine does the following:
+\begin{itemize}
+    \item Updates a state
+    \item Moves either left or right
+\end{itemize}
+
+The RAM M' will then do the following:
+\begin{itemize}
+    \item Updates the state in register 2
+    \item Moves either left or right in the memory cells by updating register 1 by +1 or -1 respectively
+\end{itemize}
+
+This is a valid simulation of the Turing machine, and hence RAM is computationally equivalent to a deterministic Turing machine.
+
+Now, let M' be a RAM. We will construct a Turing machine M that is equivalent to M'.
+
+Encode the memory cells of the RAM as a tape of the Turing machine in the following way:
+
+$((a_1, v_1), (a_2, v_2), \ldots, (a_n, v_n))$
+
+Where $a_i$ is the address of the $i^{th}$ memory cell and $v_i$ is the value stored in the $i^{th}$ memory cell. If a memory cell is not written to, it is not included in the tape.
+
+At any given finite time only finitely many memory cells are written to, and thus the tape is finite.
+
+Now, the only issue is that the RAM may read an arbritary position on the tape. In this case, we just have to move the head to the position and read or write the value. As a subprogram in the turning machine, random acess is simply encoded as a procedure to reach to the required position and then read or write the value.
+
+This is an informal proof, but it is clear that RAM is computationally equivalent to a deterministic Turing machine.
+\end{document}
