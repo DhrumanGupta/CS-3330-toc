@@ -1,0 +1,35 @@
+\documentclass[11pt]{article}
+\input{_preamble}
+
+\title{Daily Exercise}
+\author{Dhruman Gupta}
+\date{5th March}
+
+\begin{document}
+
+\input{_exercise-header}
+Construct a Turing machine that takes as input a number n in unary and accepts if and only if n is a perfect square.
+
+\textbf{Answer:}
+
+Let $M$ be a turing machine. The initial configuration is $(q_0, 1^n\sqcup, 0)$. The machine will then do the following:
+
+\begin{itemize}
+    \item Read until the first $\sqcup$.
+    \item Add a $\#$ as a separator.
+    \item Initialise $i = 1$.
+    \item While there exists a $1$ on the left of $\#$:
+    \begin{itemize}
+        \item Write $i$ many $1$ to the right of $\#$.
+        \item While there exists a $1$ on the right of $\#$:
+        \begin{itemize}
+            \item Swap the right-most $1$ with empty, and replace the right-most $1$ on the left of $\#$ with a $X$.
+            \item If no $1$ exists on the left of $\#$, then reject.
+        \end{itemize}
+        \item If all symbols on the left of $\#$ are $X$, then accept.
+        \item Increment $i$ by 2.
+    \end{itemize}
+\end{itemize}
+
+This is a valid Turing machine that accepts if and only if n is a perfect square. This stems from the identity that every perfect square is a sum of consecutive odd numbers.
+\end{document}
