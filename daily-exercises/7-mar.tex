@@ -1,0 +1,42 @@
+\documentclass[11pt]{article}
+\input{_preamble}
+
+\title{Daily Exercise}
+\author{Dhruman Gupta}
+\date{7th March}
+
+\begin{document}
+
+\input{_exercise-header}
+A directed graph with n vertices $\{0, . . . , n - 1\}$ can be represented by a word over $\{0, 1\}$ of length $n^2$, whose $k^{th}$ letter is $1$ if and only if there is an edge in the graph from vertex $i$ to vertex $j$, where $k = n · i + j + 1$. Construct a Turing machine that recognizes the language of all those words over $\{0, 1\}$ that represent a graph with a path from vertex $0$ to vertex $n - 1$.
+
+\textbf{Answer:}
+
+Let's construct a 4-tape Turing machine. These are equivalent to the single tape Turing machines.
+
+The first tape will be the input tape. The other tapes start off empty.
+
+\textbf{Step 1:} Check if $|w| = n^2$ for some $n \in \mathbb{N}$.
+
+Go over each letter of the input tape. If the letter is not $\sqcup$, mark $1$ on the second tape. If the letter is $\sqcup$, end. This results in $|w|$ being written in unary on the second tape. $5^{th}$ March's exercise tells us how to check whether a number in unary is a perfect square. Use that algorithm on the second tape to check if $|w|$ is a perfect square. If not, reject, as this cannot be a valid graph.
+
+If yes, write $0$ at the start of the third tape. Also, replace the second tape with $n$ symbols of $1$s (this is a natural extension to the algorithm in $5^{th}$ March's exercise).
+
+\textbf{Step 2:} Check if the graph has a path from vertex $0$ to vertex $n - 1$.
+
+We use a simple breadth-first search algorithm to check if there is a path from vertex $0$ to vertex $n - 1$. The algorithm is as follows:
+\begin{itemize}
+    \item Read the first non-blank symbol from the third tape - i.e not $\sqcup$. If it does not exist, reject. Otherwise, call this $x$.
+    \item If $x = n-1$, accept.
+    \item If $x$ is on the fourth tape, replace the $x$ on the third tape with $\sqcup$ and go back reading the next non-blank symbol from the third tape.
+    \item Add $x$ to the end of the fourth tape, and replace $x$ with $\sqcup$ on the third tape.
+    \item Loop $j$ from $nx+1$ to $nx + n$
+    \begin{itemize}
+        \item If the $j^{th}$ symbol on the first tape is $0$, continue to $j+1$.
+        \item Otherwise, write $j - nx - 1$ to the end of the third tape. 
+    \end{itemize}
+\end{itemize}
+
+This algorithm is the BFS, and thus will find a path from vertex $0$ to vertex $n - 1$ if it exists.
+
+\end{document}
