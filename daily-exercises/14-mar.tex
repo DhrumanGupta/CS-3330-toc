@@ -1,0 +1,27 @@
+\documentclass[11pt]{article}
+\input{_preamble}
+
+\title{Daily Exercise}
+\author{Dhruman Gupta}
+\date{14th March}
+
+\begin{document}
+
+\input{_exercise-header}
+Let L be a recursively enumerable language that is not recursive. Define the language $L' = \{0w\ |\ w \in L\}\ \cup\ \{1w\ |\ w \notin L\}$.
+Determine whether the languages L' and L' are recursive, recursively enumerable (RE), or non-RE. Justify your answer.
+
+\textbf{Answer:}
+
+L is clearly not recursively enumerable. That is because $\bar{L} \notin RE$. So suppose $L'$ is recursively enumerable. Then, there exists a machine $M$ s.t $\mathcal{L} = L'$. 
+
+Look at any word $w \in \Sigma^*$. To check whether $w \in \bar{L}$, i.e $w \notin L$, we can use the machine $M$ on input $w' = 1w$. Recall that $M$ accepts $w'$ if and only if $w \notin L$ if and only if $w \in \bar{L}$.
+
+Thus, we can construct a machine $M'$ for $\bar{L}$. However, this contradicts the fact that $\bar{L} \notin RE$. So $L'$ is not recursively enumerable.
+
+Now, let's look at $\bar{L'} = \{0w\ |\ w \notin L\}\ \cap\ \{1w\ |\ w \in L\}$.
+
+By the same argument, if this language is recursively enumerable, then so is $L'$. However, this contradicts the fact that $L' \notin RE$. So $\bar{L'} \notin RE$.
+
+Thus, $\bar{L'}, L' \notin RE$, and thus neither are co-recursively enumerable either.
+\end{document}
