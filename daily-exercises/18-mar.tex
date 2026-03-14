@@ -1,0 +1,26 @@
+\documentclass[11pt]{article}
+\input{_preamble}
+
+\title{Daily Exercise}
+\author{Dhruman Gupta}
+\date{17th March}
+
+\begin{document}
+
+\input{_exercise-header}
+Prove that BusyBeaver(1) = 1.
+
+\textbf{Answer:}
+
+Let $M$ be a 1 state turing machine initialised on a blank tape. $M$ only has one state: $q$. The machine reads an empty tape and has the following options:
+
+\begin{itemize}
+    \item Halt.
+    \item Move right and optionally write something on the current cell.
+\end{itemize}
+
+Clearly, if the first option is chosen the machine will halt in 1 step. Now, suppose the second option is chosen. It then might write something, and then move to the right. It is on state $q$ and sees a blank input again. By definition, it would write something (if it did earlier) and then move to the right. This process will repeat indefinitely. Hence $M$ is not halting.
+
+Hence the only option is the first one, and the machine will halt in 1 step. Hence $BB(1) = 1$.
+
+\end{document}
