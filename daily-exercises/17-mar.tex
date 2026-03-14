@@ -1,0 +1,39 @@
+\documentclass[11pt]{article}
+\input{_preamble}
+
+\title{Daily Exercise}
+\author{Dhruman Gupta}
+\date{17th March}
+
+\begin{document}
+
+\input{_exercise-header}
+Give a language over a singleton alphabet that is not recursive.
+
+\textbf{Answer:}
+
+Let $L = \{a^n | \exists k \in \mathbb{N} \text{ s.t } n = BB(k)\}$, where $BB(k)$ is the $k^{th}$ Busy Beaver number. This language is not recursive because the Busy Beaver numbers are not computable.
+
+For the sake of contradiction, assume that $L$ is recursive. Then, there exists a Turing machine $M$ that decides $L$. We can construct a TM $M'$ that decides $L' = \{BB(n) | n \in \mathbb{N}\}$.
+
+$M'$ will do the following. Given input $n$:
+\begin{itemize}
+    \item Set $i = 1$, $m = -1$.
+    \item While $m < n$:
+    \begin{itemize}
+        \item Run $M$ on input $a^i$.
+        \item If $M$ accepts, then set $m = i$
+        \item If $M$ rejects, do nothing
+        \item Increment $i$ by 1.
+    \end{itemize}
+    \item If $m = n$, accept. Otherwise, reject.
+\end{itemize}
+
+This TM enumerates all numberes in ascending order, checks if they are a BB number. If they are, it keeps it as the largest BB number found so far. If it finds BB number greater than $n$, it rejects, as if $n$ was a BB number, it would have been found by now.
+
+If it finds $n$ as a BB number, it will accept. So clearly, $L'$ is decidable. This is a contradiction because we know that busy beaver numbers are not computable.
+
+Hence, $L$ is not recursive.
+
+
+\end{document}
