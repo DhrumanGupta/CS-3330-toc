@@ -1,0 +1,21 @@
+\documentclass[11pt]{article}
+\input{_preamble}
+
+\title{Daily Exercise}
+\author{Dhruman Gupta}
+\date{19th March}
+
+\begin{document}
+
+\input{_exercise-header}
+Show that the RAM Model (RA-Machine) is equivalent to a Universal Turing Machine.
+
+\textbf{Answer:}
+
+First, look at 27th Feb's problem. There we show that a RAM is equivalent to a turing machine.
+
+Let $M$ be a universal turing machine. Since $M$ is a turing machine, and we know that we can construct a RAM $M'$ that is equivalent to $M$, there exists a RAM $M'$ that is equivalent to a universal turing machine.
+
+Now, let $R$ be a RAM. We know there exists a TM $M'$ that is equivalent to $R$. Now, use a universal TM $U$ to simulate $M'$ on the given input. This is a valid simulation of $R$, and hence the RAM model is equivalent to a universal turing machine.
+
+\end{document}
