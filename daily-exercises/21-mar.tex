@@ -1,0 +1,56 @@
+\documentclass[11pt]{article}
+\input{_preamble}
+
+\title{Daily Exercise}
+\author{Dhruman Gupta}
+\date{21st March}
+
+\begin{document}
+
+\input{_exercise-header}
+Show that recursively enumerable languages are closed under quotienting.
+
+\textbf{Answer:}
+
+Take right quotient to mean
+\[
+L_1 / L_2 = \{x \mid \exists y \in L_2 \text{ such that } xy \in L_1\}.
+\]
+
+Let $A$ and $B$ be recursively enumerable languages. We will show that $A/B$ is recursively enumerable.
+
+Since $A$ and $B$ are recursively enumerable, there exist Turing machines $M_A$ and $M_B$ that recognise $A$ and $B$ respectively.
+
+That is:
+\begin{itemize}
+    \item if $w \in A$, then $M_A$ accepts $w$ in finite time,
+    \item if $w \notin A$, then $M_A$ may either reject or loop forever,
+    \item if $w \in B$, then $M_B$ accepts $w$ in finite time,
+    \item if $w \notin B$, then $M_B$ may either reject or loop forever.
+\end{itemize}
+
+We construct a nondeterministic Turing machine $N$ that recognises $A/B$ as follows.
+
+On input $x$:
+\begin{itemize}
+    \item Nondeterministically guess a string $y$.
+    \item Run $M_B$ on input $y$.
+    \item Run $M_A$ on input $xy$.
+    \item If both machines accept, then accept.
+\end{itemize}
+
+Now, if $x \in A/B$, then by definition there exists some $y \in B$ such that $xy \in A$. On the branch where $N$ guesses this $y$, the machine $M_B$ accepts $y$ and the machine $M_A$ accepts $xy$. Hence $N$ accepts $x$.
+
+On the other hand, if $x \notin A/B$, then for every string $y$, at least one of the following holds:
+\begin{itemize}
+    \item $y \notin B$, or
+    \item $xy \notin A$.
+\end{itemize}
+
+So on every branch, at least one of $M_B$ and $M_A$ does not accept. Hence no branch accepts, and so $N$ does not accept $x$.
+
+Thus $N$ recognises $A/B$, so $A/B$ is recursively enumerable.
+
+Therefore recursively enumerable languages are closed under quotienting.
+
+\end{document}
