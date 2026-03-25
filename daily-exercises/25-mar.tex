@@ -1,0 +1,30 @@
+\documentclass[11pt]{article}
+\input{_preamble}
+
+\title{Daily Exercise}
+\author{Dhruman Gupta}
+\date{25th March}
+
+\begin{document}
+
+\input{_exercise-header}
+Given an arbitrary Turing Machine, show that it is equivalent to a Turing Machine with 13 states (the tape alphabet need not be the same).
+
+\textbf{Answer:}
+
+Let $M$ be an arbitrary Turing machine. Suppose $M$ has $n$ internal states and $m$ tape symbols.
+
+In Shannon's paper \emph{A Universal Turing Machine with Two Internal States}, he constructively shows that any Turing machine $A$ can be translated to an equivalent Turing machine $B$ with exactly $2$ internal states. More precisely, if $A$ has $n$ states and $m$ symbols, then $B$ has $2$ states and at most $4nm + m$ tape symbols.
+
+Apply this construction to $M$. Then we get an equivalent Turing machine $M'$ with exactly $2$ states. The tape alphabet may be different from that of $M$, but this is allowed.
+
+Now, construct a new machine $M''$ as follows: take $M'$ and add $11$ extra states that are unreachable from the start state and do not appear in any transition. These states are never entered during any computation, so they do not affect the behaviour of the machine.
+
+Hence $M''$ is equivalent to $M'$, and therefore equivalent to $M$. Also, $M''$ has exactly
+\[
+2 + 11 = 13.
+\]
+
+Therefore every Turing machine is equivalent to a Turing machine with $13$ states.
+
+\end{document}

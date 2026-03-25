@@ -1,0 +1,34 @@
+\documentclass[11pt]{article}
+\input{_preamble}
+
+\title{Daily Exercise}
+\author{Dhruman Gupta}
+\date{24th March}
+
+\begin{document}
+
+\input{_exercise-header}
+$L = \{\langle M,w,n\rangle \mid M \text{ halts on } w \text{ in at most } 2^n \text{ steps}\}$. Prove or disprove the decidability of membership in $L$.
+
+\textbf{Answer:}
+
+This language is decidable.
+
+Let $D$ be a turing machine that takes input $\langle M,w,n\rangle$. It will do the following:
+
+\begin{itemize}
+    \item Compute $2^n$.
+    \item Simulate $M$ on input $w$ for at most $2^n$ steps.
+    \item If $M$ halts within those $2^n$ steps, accept.
+    \item Otherwise, reject.
+\end{itemize}
+
+This is a valid decider because it always halts. The first step halts, and the simulation only runs for a finite number of steps, namely $2^n$.
+
+Now, if $\langle M,w,n\rangle \in L$, then by definition $M$ halts on $w$ in at most $2^n$ steps. So the simulation will see this and accept.
+
+If $\langle M,w,n\rangle \notin L$, then either $M$ does not halt on $w$, or it halts only after more than $2^n$ steps. In either case, the simulation will not see $M$ halt within $2^n$ steps, and so it rejects.
+
+Hence, $D$ decides $L$. Therefore membership in $L$ is decidable.
+
+\end{document}
