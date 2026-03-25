@@ -1,0 +1,42 @@
+\documentclass[11pt]{article}
+\input{_preamble}
+
+\title{Daily Exercise}
+\author{Dhruman Gupta}
+\date{27th March}
+
+\begin{document}
+
+\input{_exercise-header}
+Prove a lower bound for sorting a sequence of integers in the Turing machine model.
+
+\textbf{Answer:}
+
+Suppose the input is a sequence of $n$ integers, each written in binary using exactly $b$ bits. Then the total input length is
+\[
+N = \Theta(nb).
+\]
+
+We will show that any Turing machine that sorts such an input must take time $\Omega(N)$, and hence $\Omega(nb)$.
+
+Let $M$ be a Turing machine that sorts sequences of integers. For the sake of contradiction, assume that on some input $x$, the machine halts without ever reading some input bit position $i$.
+
+Now construct another input $x'$ by changing only the bit in position $i$, and leaving all other bits the same. Since the integers are written in fixed-length binary, $x'$ is still a valid input. Also, by changing a bit inside one of the integers, we can ensure that the input sequence is different, and hence the correctly sorted output is different.
+
+But the computation of $M$ on $x$ and $x'$ is identical. Indeed, the machine never reads position $i$, so at every step it sees exactly the same information on both inputs. Hence it makes the same transitions and produces the same output on both inputs.
+
+This is a contradiction, since $x$ and $x'$ have different correct sorted outputs. Therefore, on every input, a correct sorting machine must read every input bit.
+
+A Turing machine can read at most one tape cell in one step. So reading all $N$ input symbols requires at least $N$ steps. Hence the running time is at least
+\[
+\Omega(N) = \Omega(nb).
+\]
+
+Therefore, sorting a sequence of $n$ integers of $b$ bits each in the Turing machine model has lower bound $\Omega(nb)$.
+
+In particular, if $b = \Theta(\log n)$, then the lower bound becomes
+\[
+\Omega(n \log n).
+\]
+
+\end{document}

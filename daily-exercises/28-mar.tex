@@ -1,0 +1,41 @@
+\documentclass[11pt]{article}
+\input{_preamble}
+
+\title{Daily Exercise}
+\author{Dhruman Gupta}
+\date{28th March}
+
+\begin{document}
+
+\input{_exercise-header}
+Consider the following decision problem: given a Python program $P$ and a line number $\ell$, does there exist an input on which $P$ reaches line $\ell$ during execution? Show that this problem is undecidable.
+
+\textbf{Answer:}
+
+We will prove this by reduction from the halting problem.
+
+Let $M$ be a program and let $w$ be an input. We will construct a Python program $Q$ and a line number $\ell$ such that $Q$ reaches line $\ell$ on some input if and only if $M$ halts on $w$.
+
+The program $Q$ works as follows:
+
+\begin{itemize}
+    \item It takes an arbitrary input, but ignores it.
+    \item It simulates $M$ on input $w$.
+    \item If the simulation of $M$ on $w$ halts, then $Q$ proceeds to line $\ell$.
+    \item If the simulation does not halt, then $Q$ loops forever before reaching line $\ell$.
+\end{itemize}
+
+Now, if $M$ halts on $w$, then the simulation inside $Q$ eventually finishes, and so $Q$ reaches line $\ell$. Hence there exists an input on which $Q$ reaches line $\ell$.
+
+On the other hand, if $M$ does not halt on $w$, then the simulation inside $Q$ runs forever, so line $\ell$ is never reached on any input.
+
+Therefore,
+\[
+Q \text{ reaches line } \ell \text{ on some input } \iff M \text{ halts on } w.
+\]
+
+So if we had a decider for the given problem, then we could decide the halting problem by applying it to $Q$ and $\ell$. But the halting problem is undecidable. This is a contradiction.
+
+Hence the problem of deciding whether there exists an input on which a Python program reaches a given line is undecidable.
+
+\end{document}

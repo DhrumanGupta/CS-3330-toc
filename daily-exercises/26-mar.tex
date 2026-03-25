@@ -1,0 +1,30 @@
+\documentclass[11pt]{article}
+\input{_preamble}
+
+\title{Daily Exercise}
+\author{Dhruman Gupta}
+\date{26th March}
+
+\begin{document}
+
+\input{_exercise-header}
+Analyze the time complexity of Breadth-First Search on a graph in the Turing machine model.
+
+\textbf{Answer:}
+
+Let $G = (V,E)$ be the input graph. Suppose $|V| = n$ and $|E| = m$. We analyse the usual BFS algorithm in the Turing machine model.
+
+On a RAM, BFS runs in time $O(n+m)$, since each vertex is visited at most once and each edge is examined at most once.
+
+Now consider a Turing machine. The graph is written on the tape, say as adjacency lists. The main issue is that a Turing machine does not have random access memory. So operations such as checking whether a vertex has been visited, marking it as visited, maintaining the queue, or locating the adjacency list of a vertex may require scanning a tape segment of size $O(n+m)$.
+
+Thus, an operation that takes constant time on a RAM may take $O(n+m)$ time on a Turing machine.
+
+Since BFS performs $O(n+m)$ such operations overall, the total running time is
+\[
+O((n+m)(n+m)) = O((n+m)^2).
+\]
+
+Hence Breadth-First Search runs in polynomial time on a Turing machine, namely $O((n+m)^2)$.
+
+\end{document}
