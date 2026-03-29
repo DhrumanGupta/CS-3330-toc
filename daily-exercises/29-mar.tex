@@ -1,0 +1,39 @@
+\documentclass[11pt]{article}
+\input{_preamble}
+
+\title{Daily Exercise}
+\author{Dhruman Gupta}
+\date{29th March}
+
+\begin{document}
+
+\input{_exercise-header}
+Consider the Post Correspondence Problem (PCP) over the binary alphabet $\{0, 1\}$. For any set $T$ of $n$ tiles, let $f(T)$ be the length of the shortest solution to the PCP instance $T$ if one exists, and $0$ otherwise. Define $g(n)$ to be the maximum value of $f(T)$ over all possible sets $T$ of exactly $n$ binary tiles. Intuitively, $g(n)$ measures how long the shortest solution can get in the worst case, when you are allowed to pick the worst possible $n$-tile binary PCP instance. Show that $g$ is not a computable function.
+
+\textbf{Answer:}
+
+We know that PCP over a binary alphabet is undecidable.
+
+Suppose for the sake of contradiction that $g$ is computable. We will show that this lets us decide binary PCP.
+
+Let $T$ be any PCP instance over $\{0,1\}$ with exactly $n$ tiles. Compute
+\[
+l = g(n).
+\]
+By definition of $g(n)$, if $T$ has any solution at all, then its shortest solution has length at most $l$.
+
+Now enumerate all finite sequences of tiles of lengths $1,2,\dots,l$. For each such sequence, check whether it is a solution to $T$. This is a finite search, since there are only finitely many sequences of length at most $l$.
+
+There are now two cases:
+\begin{itemize}
+    \item If during this search we find a solution, accept.
+    \item If no solution is found after checking all sequences of length at most $l$, reject.
+\end{itemize}
+
+This procedure decides whether $T$ has a solution. Indeed, if $T$ has a solution, then by definition of $g(n)$ it has one of length at most $l$, so our search will find it. If no such sequence is found, then $T$ has no solution.
+
+Hence binary PCP would be decidable. This is a contradiction, since binary PCP is undecidable.
+
+Therefore $g$ is not computable.
+
+\end{document}
