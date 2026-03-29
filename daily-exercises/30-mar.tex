@@ -1,0 +1,97 @@
+\documentclass[11pt]{article}
+\input{_preamble}
+
+\title{Daily Exercise}
+\author{Dhruman Gupta}
+\date{30th March}
+
+\begin{document}
+
+\input{_exercise-header}
+Let $L=\{\langle M\rangle \mid |L(M)|=72\}$, i.e., the language of encodings of Turing machines whose accepted language contains exactly 72 strings. Prove that $L$ is neither recursively enumerable nor co-recursively enumerable.
+
+\textbf{Answer:}
+
+First, recall that
+\[
+E_{TM} = \{\langle M \rangle \mid L(M) = \emptyset\}
+\]
+is not recursively enumerable.
+
+To see this, reduce from $\overline{A_{TM}}$. Given $\langle M,w \rangle$, construct a machine $N$ as follows: on any input $x$,
+\begin{itemize}
+    \item Simulate $M$ on $w$.
+    \item If $M$ accepts $w$, then accept $x$.
+    \item Otherwise, run forever.
+\end{itemize}
+Then
+\[
+\langle M,w \rangle \in \overline{A_{TM}} \iff L(N)=\emptyset.
+\]
+Hence $\overline{A_{TM}} \leq_m E_{TM}$, so $E_{TM} \notin RE$.
+
+Now we prove that
+\[
+L = \{\langle M \rangle \mid |L(M)| = 72\}
+\]
+is neither recursively enumerable nor co-recursively enumerable.
+
+First, show that $L \notin RE$.
+
+Take any machine $M$. Construct a machine $N$ as follows. On input $x$:
+\begin{itemize}
+    \item If $x \in \{0,0^2,\dots,0^{72}\}$, accept.
+    \item Otherwise, dovetail $M$ on all strings $w_1,w_2,\dots$
+    \item If some $w_i$ is accepted by $M$, then accept if $x=1$.
+    \item Otherwise run forever.
+\end{itemize}
+
+If $L(M)=\emptyset$, then the dovetailing never finds an accepted string, so $N$ accepts exactly
+\[
+\{0,0^2,\dots,0^{72}\},
+\]
+and therefore $|L(N)|=72$.
+
+If $L(M)\neq \emptyset$, then eventually the dovetailing finds some accepted string, and then $N$ also accepts $1$. Hence in this case $|L(N)|=73$.
+
+So
+\[
+\langle M \rangle \in E_{TM} \iff \langle N \rangle \in L.
+\]
+Thus
+\[
+E_{TM} \leq_m L.
+\]
+Since $E_{TM}\notin RE$, it follows that $L\notin RE$.
+
+Now show that $L \notin coRE$. Equivalently, show that $\overline{L}\notin RE$.
+
+Again take any machine $M$, and construct a machine $N$ as follows. On input $x$:
+\begin{itemize}
+    \item If $x \in \{0,0^2,\dots,0^{71}\}$, accept.
+    \item Otherwise, dovetail $M$ on all strings $w_1,w_2,\dots$
+    \item If some $w_i$ is accepted by $M$, then accept if $x=1$.
+    \item Otherwise run forever.
+\end{itemize}
+
+If $L(M)=\emptyset$, then $N$ accepts exactly
+\[
+\{0,0^2,\dots,0^{71}\},
+\]
+so $|L(N)|=71$, and therefore $\langle N\rangle \in \overline{L}$.
+
+If $L(M)\neq \emptyset$, then eventually $N$ also accepts $1$, so $|L(N)|=72$, and hence $\langle N\rangle \in L$.
+
+Therefore
+\[
+\langle M \rangle \in E_{TM} \iff \langle N \rangle \in \overline{L}.
+\]
+So
+\[
+E_{TM} \leq_m \overline{L}.
+\]
+Since $E_{TM}\notin RE$, we get $\overline{L}\notin RE$. Hence $L\notin coRE$.
+
+Therefore $L$ is neither recursively enumerable nor co-recursively enumerable.
+
+\end{document}
