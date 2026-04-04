@@ -1,0 +1,53 @@
+\documentclass[11pt]{article}
+\input{_preamble}
+
+\title{Daily Exercise}
+\author{Dhruman Gupta}
+\date{4th April}
+
+\begin{document}
+
+\input{_exercise-header}
+The NFA intersection problem is: given two NFA $A_1$ and $A_2$, is $L(A_1) \cap L(A_2) \neq \emptyset$?
+
+Prove that this decision problem is in $P$.
+
+\textbf{Answer:}
+
+Let
+\[
+A_1 = (Q_1, \Sigma, \Delta_1, S_1, F_1), \qquad A_2 = (Q_2, \Sigma, \Delta_2, S_2, F_2)
+\]
+be the two NFAs.
+
+Construct the product NFA
+\[
+A = (Q_1 \times Q_2, \Sigma, \Delta, S_1 \times S_2, F_1 \times F_2),
+\]
+where
+\[
+(q_1', q_2') \in \Delta((q_1, q_2), a)
+\iff
+q_1' \in \Delta_1(q_1, a) \text{ and } q_2' \in \Delta_2(q_2, a).
+\]
+
+This is the standard product construction, and it is clear that
+\[
+L(A) = L(A_1) \cap L(A_2).
+\]
+
+So it remains to decide whether $L(A) \neq \emptyset$.
+
+Now, emptiness of an NFA can be checked in polynomial time. The idea is to see whether some accepting state is reachable from some start state. This can be done by a dynamic programming construction: for each state $q$, keep track of whether $q$ is reachable from some start state. Initially, mark all states in $S_1 \times S_2$ as reachable. Then repeatedly propagate reachability along transitions until no new states are added. At the end, if some state in $F_1 \times F_2$ is reachable, then $L(A) \neq \emptyset$; otherwise, $L(A) = \emptyset$.
+
+The number of states in $A$ is $|Q_1||Q_2|$, and the number of transitions is at most polynomial in the sizes of $A_1$ and $A_2$. The product construction is therefore polynomial, and the dynamic programming reachability check is also polynomial.
+
+Hence, we can decide whether
+\[
+L(A_1) \cap L(A_2) \neq \emptyset
+\]
+in polynomial time.
+
+Therefore the NFA intersection problem is in $P$.
+
+\end{document}
