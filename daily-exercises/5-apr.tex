@@ -1,0 +1,57 @@
+\documentclass[11pt]{article}
+\input{_preamble}
+
+\title{Daily Exercise}
+\author{Dhruman Gupta}
+\date{5th April}
+
+\begin{document}
+
+\input{_exercise-header}
+The NFA square problem is: Does there exist a non-empty string $w$ such that $ww \in L(A)$?
+
+Prove that this problem is NP-complete. 
+
+\textbf{Answer:}
+
+The statement is false as written. In fact, the NFA square problem is in $P$.
+
+Let $A = (Q, \Sigma, \delta, I, F)$ be an NFA. We will show that there is a polynomial-time algorithm to decide whether there exists a non-empty string $w$ such that $ww \in L(A)$.
+
+Observe that $ww \in L(A)$ iff there exists a state $q \in Q$ such that:
+
+\begin{itemize}
+    \item Starting from some initial state, $A$ can read $w$ and end in $q$.
+    \item Starting from $q$, $A$ can read the same string $w$ and end in some final state.
+\end{itemize}
+
+So, the question is equivalent to asking whether there exists a state $q \in Q$ and a non-empty string $w$ such that
+\[
+w \in L(I, q) \cap L(q, F),
+\]
+where $L(I, q)$ is the set of strings taking some initial state to $q$, and $L(q, F)$ is the set of strings taking $q$ to some final state.
+
+Now, fix a state $q$. Construct a product automaton whose states are pairs $(p, r) \in Q \times Q$. The first component simulates reading $w$ from an initial state, and the second component simulates reading the same $w$ from $q$.
+
+The start states are all pairs $(i, q)$ for $i \in I$, and the accepting states are all pairs $(q, f)$ for $f \in F$.
+
+For each symbol $a \in \Sigma$, put a transition
+\[
+(p, r) \xrightarrow{a} (p', r')
+\]
+whenever
+\[
+p' \in \delta(p, a) \text{ and } r' \in \delta(r, a).
+\]
+
+Then there exists a non-empty string $w$ such that
+\[
+i \xrightarrow{w} q \text{ and } q \xrightarrow{w} f
+\]
+for some $i \in I$ and $f \in F$ iff in this product automaton there is a path labelled by a non-empty string from some start state $(i, q)$ to some accepting state $(q, f)$.
+
+Thus, for each $q \in Q$, we just need to test reachability in a graph of size $|Q|^2$. This is polynomial. Repeating for all $q \in Q$ is still polynomial.
+
+Hence the NFA square problem is in $P$. Therefore, unless $P = NP$, it cannot be NP-complete.
+
+\end{document}

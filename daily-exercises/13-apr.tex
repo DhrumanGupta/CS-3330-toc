@@ -1,0 +1,49 @@
+\documentclass[11pt]{article}
+\input{_preamble}
+
+\title{Daily Exercise}
+\author{Dhruman Gupta}
+\date{13th April}
+
+\begin{document}
+
+\input{_exercise-header}
+Show that PATH is logspace-reducible to co-PATH (the problem of deciding whether there is no path from $s$ to $t$).
+
+\textbf{Answer:}
+
+We will show that $PATH \leq_L co\text{-}PATH$.
+
+Let an instance of $PATH$ be a directed graph $G = (V,E)$ with two distinguished vertices $s,t$. We want a logspace computable function $f$ such that
+\[
+(G,s,t) \in PATH \iff f(G,s,t) \in co\text{-}PATH.
+\]
+
+Now, this is not true for an arbitrary directed graph. For example, it is possible that there is a path from $s$ to $t$ and also a path from $t$ to $s$.
+
+So, use the fact that $PATH$ remains complete even when restricted to directed acyclic graphs. Hence, it is enough to give a logspace reduction for DAGs.
+
+Define
+\[
+f(G,s,t) = (G,t,s).
+\]
+That is, we keep the graph the same and just swap $s$ and $t$.
+
+Since $G$ is a DAG, it cannot have both a path from $s$ to $t$ and a path from $t$ to $s$, because that would create a directed cycle. Hence, in a DAG,
+\[
+s \leadsto t \iff t \not\leadsto s.
+\]
+
+Therefore,
+\[
+(G,s,t) \in PATH \iff (G,t,s) \in co\text{-}PATH.
+\]
+
+It remains to show that $f$ is computable in logspace. But this is immediate: we output the same encoding of $G$ and swap the encodings of $s$ and $t$, which uses only logarithmic space.
+
+Hence $f$ is a logspace reduction from $PATH$ to $co\text{-}PATH$. Therefore,
+\[
+PATH \leq_L co\text{-}PATH.
+\]
+
+\end{document}
