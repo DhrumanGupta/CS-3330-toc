@@ -1,0 +1,142 @@
+\documentclass[11pt]{article}
+\input{_preamble}
+
+\title{Daily Exercise}
+\author{Dhruman Gupta}
+\date{20th April}
+
+\begin{document}
+
+\input{_exercise-header}
+For $k \geq 1$, define $\Sigma_k^P = \{ L \mid$ there exists a polynomial-time predicate $R$ such that 
+\[
+x \in L \iff \exists y_1 \forall y_2 \exists y_3 \cdots Q_k y_k. R(x, y_1, \dots, y_k)
+\]
+where the quantifiers alternate, starting with $\exists$, and each $y_i$ is polynomially bounded in $|x|$. Similarly, $\Pi_k^P$ starts with $\forall$.
+
+Show that:
+\begin{itemize}
+    \item $\Sigma_1^P = NP$ and $\Pi_1^P = coNP$
+    \item $\Sigma_k^P \subseteq \Sigma_{k+1}^P$ and $\Pi_k^P \subseteq \Pi_{k+1}^P$ for all $k$
+    \item $\Sigma_k^P = co\Pi_k^P$
+\end{itemize}
+
+\textbf{Answer:}
+
+First, for $k = 1$, the definition of $\Sigma_1^P$ is:
+
+\[
+x \in L \iff \exists y \text{ such that } |y| \leq p(|x|) \text{ and } R(x,y)
+\]
+
+for some polynomial $p$ and some polynomial-time predicate $R$.
+
+But this is exactly the definition of $NP$: there exists a polynomially bounded certificate $y$ that can be verified in polynomial time. Hence,
+
+\[
+\Sigma_1^P = NP.
+\]
+
+Now, the definition of $\Pi_1^P$ is:
+
+\[
+x \in L \iff \forall y \text{ such that } |y| \leq p(|x|), R(x,y).
+\]
+
+Take complement. Then,
+
+\[
+x \notin L \iff \exists y \text{ such that } |y| \leq p(|x|) \text{ and } \neg R(x,y).
+\]
+
+Since $R$ is polynomial-time decidable, so is $\neg R$. Hence $\overline{L} \in NP$, and so $L \in coNP$. Therefore,
+
+\[
+\Pi_1^P = coNP.
+\]
+
+Now, let $L \in \Sigma_k^P$. Then there exists a polynomial-time predicate $R$ such that
+
+\[
+x \in L \iff \exists y_1 \forall y_2 \exists y_3 \cdots Q_k y_k \; R(x,y_1,\dots,y_k).
+\]
+
+To show that $L \in \Sigma_{k+1}^P$, just add one dummy variable at the end. Define
+
+\[
+R'(x,y_1,\dots,y_k,y_{k+1}) = R(x,y_1,\dots,y_k).
+\]
+
+Clearly $R'$ is still polynomial-time decidable. Then,
+
+\[
+x \in L \iff \exists y_1 \forall y_2 \exists y_3 \cdots Q_k y_k \, Q_{k+1} y_{k+1} \; R'(x,y_1,\dots,y_k,y_{k+1}).
+\]
+
+Since the extra variable does not affect the predicate, this is a valid $\Sigma_{k+1}^P$ definition. Hence,
+
+\[
+\Sigma_k^P \subseteq \Sigma_{k+1}^P.
+\]
+
+The proof that $\Pi_k^P \subseteq \Pi_{k+1}^P$ is identical: just add an extra dummy quantified variable at the end.
+
+Finally, let $L \in \Sigma_k^P$. Then,
+
+\[
+x \in L \iff \exists y_1 \forall y_2 \exists y_3 \cdots Q_k y_k \; R(x,y_1,\dots,y_k).
+\]
+
+Take complement. Then,
+
+\[
+x \notin L \iff \neg(\exists y_1 \forall y_2 \exists y_3 \cdots Q_k y_k \; R(x,y_1,\dots,y_k)).
+\]
+
+Push the negation through the quantifiers. Every quantifier flips, so we get
+
+\[
+x \notin L \iff \forall y_1 \exists y_2 \forall y_3 \cdots \overline{Q_k} y_k \; \neg R(x,y_1,\dots,y_k).
+\]
+
+Since $R$ is polynomial-time decidable, so is $\neg R$. Hence $\overline{L} \in \Pi_k^P$, and so $L \in co\Pi_k^P$. Thus,
+
+\[
+\Sigma_k^P \subseteq co\Pi_k^P.
+\]
+
+Now let $L \in co\Pi_k^P$. Then $\overline{L} \in \Pi_k^P$, so
+
+\[
+x \in \overline{L} \iff \forall y_1 \exists y_2 \forall y_3 \cdots Q_k y_k \; R(x,y_1,\dots,y_k)
+\]
+
+for some polynomial-time predicate $R$.
+
+Taking complement again,
+
+\[
+x \in L \iff \exists y_1 \forall y_2 \exists y_3 \cdots \overline{Q_k} y_k \; \neg R(x,y_1,\dots,y_k).
+\]
+
+Hence $L \in \Sigma_k^P$, and so
+
+\[
+co\Pi_k^P \subseteq \Sigma_k^P.
+\]
+
+Therefore,
+
+\[
+\Sigma_k^P = co\Pi_k^P.
+\]
+
+Similarly,
+
+\[
+\Pi_k^P = co\Sigma_k^P.
+\]
+
+Hence proved.
+
+\end{document}
