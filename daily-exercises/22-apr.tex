@@ -1,0 +1,111 @@
+\documentclass[11pt]{article}
+\input{_preamble}
+
+\title{Daily Exercise}
+\author{Dhruman Gupta}
+\date{22nd April}
+
+\begin{document}
+
+\input{_exercise-header}
+Prove that if $\Sigma_k^P = \Pi_k^P$, then for all $j > k$,
+
+\[
+\Sigma_k^P = \Sigma_j^P = \Pi_j^P.
+\]
+
+\textbf{Answer:}
+
+Assume that
+
+\[
+\Sigma_k^P = \Pi_k^P.
+\]
+
+We will show that the polynomial hierarchy collapses at level $k$.
+
+First, recall that
+
+\[
+\Sigma_{k+1}^P = NP^{\Sigma_k^P}, \qquad \Pi_{k+1}^P = coNP^{\Sigma_k^P}.
+\]
+
+Now take any language $L \in \Sigma_{k+1}^P$. Then $L$ is decided by an NP machine with oracle in $\Sigma_k^P$.
+
+As in the proof that $NP^{NP} = \Sigma_2^P$, an NP computation with a $\Sigma_k^P$ oracle gives one outer existential block, and then the oracle questions contribute a $\Pi_k^P$ condition. So $L$ has the form
+
+\[
+x \in L \iff \exists y \; P(x,y)
+\]
+
+where $P \in \Pi_k^P$.
+
+But by assumption $\Pi_k^P = \Sigma_k^P$, so this is exactly a $\Sigma_k^P$ definition. Hence
+
+\[
+\Sigma_{k+1}^P \subseteq \Sigma_k^P.
+\]
+
+On the other hand, we always know that
+
+\[
+\Sigma_k^P \subseteq \Sigma_{k+1}^P.
+\]
+
+Therefore,
+
+\[
+\Sigma_{k+1}^P = \Sigma_k^P.
+\]
+
+Now take complements. Since $\Sigma_k^P = \Pi_k^P$, the class is closed under complement, and so
+
+\[
+\Pi_{k+1}^P = co\Sigma_{k+1}^P = co\Sigma_k^P = \Pi_k^P = \Sigma_k^P.
+\]
+
+Hence,
+
+\[
+\Sigma_{k+1}^P = \Pi_{k+1}^P = \Sigma_k^P.
+\]
+
+Now we prove the general case by induction on $j > k$.
+
+The base case $j = k+1$ is already done.
+
+Now assume that for some $j > k$,
+
+\[
+\Sigma_j^P = \Pi_j^P = \Sigma_k^P.
+\]
+
+Then
+
+\[
+\Sigma_{j+1}^P = NP^{\Sigma_j^P} = NP^{\Sigma_k^P} = \Sigma_{k+1}^P = \Sigma_k^P.
+\]
+
+Taking complements again,
+
+\[
+\Pi_{j+1}^P = co\Sigma_{j+1}^P = co\Sigma_k^P = \Pi_k^P = \Sigma_k^P.
+\]
+
+So
+
+\[
+\Sigma_{j+1}^P = \Pi_{j+1}^P = \Sigma_k^P.
+\]
+
+This completes the induction.
+
+Therefore, for every $j > k$,
+
+\[
+\Sigma_k^P = \Sigma_j^P = \Pi_j^P.
+\]
+
+Hence proved.
+
+\end{document}
