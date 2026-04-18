@@ -1,0 +1,50 @@
+\documentclass[11pt]{article}
+\input{_preamble}
+
+\title{Daily Exercise}
+\author{Dhruman Gupta}
+\date{18th April}
+
+\begin{document}
+
+\input{_exercise-header}
+An oracle Turing machine is a Turing machine with an extra tape called the oracle tape and three special states: QUERY, YES, NO. When the machine enters QUERY, it receives an answer in one step: YES if the string on the oracle tape belongs to the oracle set $A$, else NO. For a complexity class $C$ and an oracle set $A$, $C^A$ denotes the class of languages decidable by a machine of type $C$ with access to oracle $A$.
+
+Show that $P^{SAT}$ contains both $NP$ and $coNP$.
+
+\textbf{Answer:}
+
+We will show that both $NP \subseteq P^{SAT}$ and $coNP \subseteq P^{SAT}$.
+
+First, let $L \in NP$. Then, by Cook-Levin, there exists a polynomial time reduction from $L$ to $SAT$. That is, for every input $x$, we can construct in polynomial time a Boolean formula $\phi_x$ such that
+\[
+x \in L \iff \phi_x \in SAT.
+\]
+
+Now construct a deterministic polynomial time oracle Turing machine with oracle $SAT$. On input $x$, it does the following:
+\begin{itemize}
+    \item Construct $\phi_x$ in polynomial time.
+    \item Write $\phi_x$ on the oracle tape and enter the QUERY state.
+    \item If the oracle answers YES, accept. Otherwise, reject.
+\end{itemize}
+
+This machine runs in polynomial time, since constructing $\phi_x$ takes polynomial time and the oracle query takes one step. Hence $L \in P^{SAT}$. Therefore,
+\[
+NP \subseteq P^{SAT}.
+\]
+
+Now let $L \in coNP$. Then $\overline{L} \in NP$. By the above argument,
+\[
+\overline{L} \in P^{SAT}.
+\]
+
+So there exists a deterministic polynomial time oracle machine with oracle $SAT$ deciding $\overline{L}$. To decide $L$, just run that machine and reverse the final answer: accept if it rejects, and reject if it accepts. This is still a deterministic polynomial time oracle machine with oracle $SAT$.
+
+Hence $L \in P^{SAT}$, and so
+\[
+coNP \subseteq P^{SAT}.
+\]
+
+Therefore, $P^{SAT}$ contains both $NP$ and $coNP$.
+
+\end{document}

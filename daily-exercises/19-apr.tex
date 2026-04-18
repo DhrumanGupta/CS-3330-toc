@@ -1,0 +1,100 @@
+\documentclass[11pt]{article}
+\input{_preamble}
+
+\title{Daily Exercise}
+\author{Dhruman Gupta}
+\date{19th April}
+
+\begin{document}
+
+\input{_exercise-header}
+Show that there exists an oracle $A$ such that $P^A = NP^A$. Show that there exists an oracle $B$ such that $P^B \neq NP^B$.
+
+\textbf{Answer:}
+
+First, we show there exists an oracle $A$ such that $P^A = NP^A$.
+
+Let $A = \text{EXPCOM}$, where $\text{EXPCOM}$ is some EXP-complete language.
+
+We claim that
+\[
+P^A = EXP.
+\]
+
+To see that $EXP \subseteq P^A$, let $L \in EXP$. Since $A$ is EXP-complete, there exists a polynomial time many-one reduction $f$ such that
+\[
+x \in L \iff f(x) \in A.
+\]
+So a deterministic polynomial time machine with oracle access to $A$ can decide $L$ by computing $f(x)$ and making one oracle query. Hence $L \in P^A$.
+
+Now, to see that $P^A \subseteq EXP$, note that a polynomial time oracle machine can only make polynomially many queries, each of polynomial length. Since $A \in EXP$, each oracle query can be answered in exponential time. Therefore the whole oracle computation can be simulated in exponential time. Hence $P^A \subseteq EXP$.
+
+So $P^A = EXP$.
+
+Now consider $NP^A$. We claim that
+\[
+NP^A \subseteq EXP.
+\]
+Indeed, an $NP^A$ machine runs in polynomial time, so it has at most exponentially many computation branches. On each branch it makes polynomially many oracle queries of polynomial length. Since each query to $A$ can be answered in exponential time, the entire nondeterministic computation can be simulated deterministically in exponential time. Hence $NP^A \subseteq EXP$.
+
+But we already showed that $P^A = EXP$, so
+\[
+NP^A \subseteq EXP = P^A.
+\]
+Also, clearly $P^A \subseteq NP^A$. Therefore
+\[
+P^A = NP^A.
+\]
+
+Now we show there exists an oracle $B$ such that $P^B \neq NP^B$.
+
+Define
+\[
+L_B = \{1^n \mid \exists y \in \{0,1\}^n \text{ such that } y \in B\}.
+\]
+First, note that $L_B \in NP^B$. On input $1^n$, an NP machine guesses a string $y \in \{0,1\}^n$ and queries whether $y \in B$. If yes, it accepts. Otherwise it rejects. So $L_B \in NP^B$.
+
+Now we construct $B$ so that no deterministic polynomial time oracle machine decides $L_B$.
+
+Enumerate all deterministic polynomial time oracle Turing machines as
+\[
+M_1, M_2, M_3, \dots
+\]
+and let $p_i$ be a polynomial time bound for $M_i$.
+
+We build $B$ in stages. At stage $i$, choose a number $n$ such that:
+\begin{itemize}
+    \item $n$ is larger than every length used in earlier stages,
+    \item $p_i(n) < 2^n$.
+\end{itemize}
+
+We will decide membership in $B$ only for strings of length $n$ at this stage. All answers for shorter lengths were already fixed in earlier stages. For strings of length $n$, temporarily answer every query by saying ``no''.
+
+Now simulate $M_i$ on input $1^n$ with these oracle answers. Since $M_i$ runs in time at most $p_i(n)$, it asks at most $p_i(n)$ queries in total. In particular, it can ask at most $p_i(n)$ strings of length $n$. But there are $2^n$ such strings, and $p_i(n) < 2^n$, so there is some string $z \in \{0,1\}^n$ that $M_i$ never queries.
+
+Now diagonalize against $M_i$:
+\begin{itemize}
+    \item If $M_i$ accepts $1^n$, then put no string of length $n$ into $B$.
+    \item If $M_i$ rejects $1^n$, then put $z$ into $B$.
+\end{itemize}
+
+This guarantees that $M_i$ is wrong on input $1^n$.
+
+If $M_i$ accepts, then no string of length $n$ is in $B$, so $1^n \notin L_B$, but $M_i$ accepts.
+
+If $M_i$ rejects, then $z \in B$, so there exists a string of length $n$ in $B$. Hence $1^n \in L_B$, but $M_i$ rejects.
+
+Also, in the second case, adding $z$ to $B$ does not change the computation of $M_i$, because $M_i$ never queried $z$.
+
+So stage $i$ makes sure that $M_i$ does not decide $L_B$. Since this is true for every deterministic polynomial time oracle machine, no machine in $P^B$ decides $L_B$. Thus
+\[
+L_B \notin P^B.
+\]
+But we already showed that $L_B \in NP^B$. Hence
+\[
+P^B \neq NP^B.
+\]
+
+Therefore there exists an oracle $A$ such that $P^A = NP^A$, and there exists an oracle $B$ such that $P^B \neq NP^B$.
+
+\end{document}
