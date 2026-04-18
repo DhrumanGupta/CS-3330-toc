@@ -1,0 +1,107 @@
+\documentclass[11pt]{article}
+\input{_preamble}
+
+\title{Daily Exercise}
+\author{Dhruman Gupta}
+\date{23rd April}
+
+\begin{document}
+
+\input{_exercise-header}
+Show that if $P = NP$, then $EXP = NEXP$.
+
+\textbf{Answer:}
+
+Assume that
+
+\[
+P = NP.
+\]
+
+We will show that
+
+\[
+EXP = NEXP.
+\]
+
+We already know that
+
+\[
+EXP \subseteq NEXP,
+\]
+
+so it is enough to prove that $NEXP \subseteq EXP$.
+
+Let $L \in NEXP$. Then there exists a nondeterministic TM $M$ and a polynomial $p$ such that $M$ decides $L$ in time $2^{p(n)}$ on inputs of length $n$.
+
+Now define the padded language
+
+\[
+L' = \{\langle x, 1^{2^{p(|x|)}} \rangle \mid x \in L\}.
+\]
+
+We claim that $L' \in NP$. On input $\langle x, 1^{2^{p(|x|)}} \rangle$, an NP machine can guess an accepting computation of $M$ on $x$ and verify it step by step.
+
+This is possible in polynomial time in the input length, because the input length is
+
+\[
+|x| + 2^{p(|x|)},
+\]
+
+and the guessed computation also has length at most $2^{p(|x|)}$. So the verification is polynomial in the size of the padded input. Hence,
+
+\[
+L' \in NP.
+\]
+
+Since $P = NP$, we get
+
+\[
+L' \in P.
+\]
+
+So there is a deterministic polynomial-time machine $A$ deciding $L'$. Let its running time be $m^c$ on inputs of length $m$.
+
+Now we use $A$ to decide $L$. Given input $x$, construct the padded string
+
+\[
+\langle x, 1^{2^{p(|x|)}} \rangle
+\]
+
+and run $A$ on it.
+
+The length of this input is
+
+\[
+m = |x| + 2^{p(|x|)}.
+\]
+
+Therefore the running time is at most
+
+\[
+m^c \leq (|x| + 2^{p(|x|)})^c \leq 2^{q(|x|)}
+\]
+
+for some polynomial $q$.
+
+Hence this gives a deterministic exponential-time algorithm for $L$. Therefore,
+
+\[
+L \in EXP.
+\]
+
+Since $L$ was arbitrary, we have shown that
+
+\[
+NEXP \subseteq EXP.
+\]
+
+Combining this with $EXP \subseteq NEXP$, we get
+
+\[
+EXP = NEXP.
+\]
+
+Hence proved.
+
+\end{document}

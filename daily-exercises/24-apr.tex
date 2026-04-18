@@ -1,0 +1,111 @@
+\documentclass[11pt]{article}
+\input{_preamble}
+
+\title{Daily Exercise}
+\author{Dhruman Gupta}
+\date{24th April}
+
+\begin{document}
+
+\input{_exercise-header}
+Let $f$ be a time-constructible function, that is, $f(n)$ can be computed in $O(f(n))$ time and $f(n) \geq n$.
+
+Show that if $NTIME(n) = DTIME(n)$, then $NTIME(f(n)) = DTIME(f(n))$. Is the converse true?
+
+\textbf{Answer:}
+
+Assume that
+
+\[
+NTIME(n) = DTIME(n).
+\]
+
+We want to show that
+
+\[
+NTIME(f(n)) = DTIME(f(n)).
+\]
+
+Since $DTIME(f(n)) \subseteq NTIME(f(n))$, it is enough to prove that
+
+\[
+NTIME(f(n)) \subseteq DTIME(f(n)).
+\]
+
+Let $L \in NTIME(f(n))$. Then some nondeterministic TM $M$ decides $L$ in time $O(f(n))$.
+
+Now define the padded language
+
+\[
+L' = \{x\#^{f(|x|)-|x|} \mid x \in L\}.
+\]
+
+Since $f(n) \geq n$, this is well-defined, and every string in $L'$ has length exactly $f(|x|)$.
+
+We claim that $L' \in NTIME(n)$. Given an input $y$, a nondeterministic machine first checks whether $y$ has the form $x\#^t$. It then computes $f(|x|)$ in $O(f(|x|))$ time, checks that
+
+\[
+|y| = f(|x|),
+\]
+
+and then simulates $M$ on $x$.
+
+All of this takes $O(f(|x|))$ time. But since $|y| = f(|x|)$, this is just $O(|y|)$. Hence,
+
+\[
+L' \in NTIME(n).
+\]
+
+By assumption $NTIME(n) = DTIME(n)$, so
+
+\[
+L' \in DTIME(n).
+\]
+
+Now use this to decide $L$. Given input $x$, compute $f(|x|)$, construct the padded string
+
+\[
+x\#^{f(|x|)-|x|},
+\]
+
+and run the deterministic linear-time machine for $L'$ on this string.
+
+The constructed string has length $f(|x|)$, so the simulation takes $O(f(|x|))$ time. Computing $f(|x|)$ and writing down the padding also take $O(f(|x|))$ time. Therefore $L$ is decidable deterministically in time $O(f(n))$.
+
+So,
+
+\[
+L \in DTIME(f(n)).
+\]
+
+Since $L$ was arbitrary, we get
+
+\[
+NTIME(f(n)) \subseteq DTIME(f(n)).
+\]
+
+Hence,
+
+\[
+NTIME(f(n)) = DTIME(f(n)).
+\]
+
+Now for the converse. The converse would say that if
+
+\[
+NTIME(f(n)) = DTIME(f(n)),
+\]
+
+then
+
+\[
+NTIME(n) = DTIME(n).
+\]
+
+This is not true in general. Equality at a larger time bound does not imply equality at a smaller time bound. For example, knowing that nondeterminism adds no power at time $n^2$ does not immediately imply that it adds no power at time $n$.
+
+So the converse is false in general.
+
+Hence proved.
+
+\end{document}

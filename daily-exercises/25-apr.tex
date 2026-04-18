@@ -1,0 +1,25 @@
+\documentclass[11pt]{article}
+\input{_preamble}
+
+\title{Daily Exercise}
+\author{Dhruman Gupta}
+\date{25th April}
+
+\begin{document}
+
+\input{_exercise-header}
+Show that there exists a function that is not time-constructible.
+
+\textbf{Answer:}
+
+Consider the Busy Beaver function $BB(n)$.
+
+We know that $BB(n)$ is not computable. On the other hand, every time-constructible function is computable, since by definition there is a Turing machine that computes $f(n)$ in time $O(f(n))$.
+
+Hence $BB(n)$ cannot be time-constructible.
+
+Therefore, there exists a function that is not time-constructible.
+
+Hence proved.
+
+\end{document}
