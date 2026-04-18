@@ -1,0 +1,202 @@
+\documentclass[11pt]{article}
+\input{_preamble}
+
+\title{Daily Exercise}
+\author{Dhruman Gupta}
+\date{21st April}
+
+\begin{document}
+
+\input{_exercise-header}
+Define $\Sigma_0^P = \Pi_0^P = P$. For $k \geq 0$, let
+
+\[
+\Sigma_{k+1}^P = NP^{\Sigma_k^P}, \qquad
+\Pi_{k+1}^P = coNP^{\Sigma_k^P}, \qquad
+\Delta_{k+1}^P = P^{\Sigma_k^P}.
+\]
+
+Show that:
+\begin{itemize}
+    \item $NP^{NP} = \Sigma_2^P$
+    \item $P^{NP} = \Delta_2^P$
+    \item $NP^{NP^{NP}} = \Sigma_3^P$
+\end{itemize}
+
+\textbf{Answer:}
+
+We know that $\Sigma_1^P = NP$.
+
+First, we show that $NP^{NP} = \Sigma_2^P$. Let $L \in NP^{NP}$. Then some NP machine $M$ with NP oracle $A$ decides $L$.
+
+Since $A \in NP$, there exists a polynomial-time predicate $S$ such that
+
+\[
+q \in A \iff \exists z \; S(q,z).
+\]
+
+Fix an input $x$ and an accepting branch of $M$. It asks only polynomially many oracle queries. For each yes-answer query $q_i$, we can guess a witness $z_i$ such that $S(q_i,z_i)$ holds. For each no-answer query $q_j$, we have
+
+\[
+\neg(\exists z\; S(q_j,z)) \iff \forall z\; \neg S(q_j,z).
+\]
+
+So the whole accepting computation has the form
+
+\[
+\exists y_1 \forall y_2 \; R(x,y_1,y_2)
+\]
+
+where $R$ is polynomial-time decidable. Here $y_1$ encodes the nondeterministic choices of $M$ and the witnesses for the yes-answer queries, and $y_2$ ranges over possible witnesses for the no-answer queries.
+
+Hence $L \in \Sigma_2^P$, and so
+
+\[
+NP^{NP} \subseteq \Sigma_2^P.
+\]
+
+Conversely, let $L \in \Sigma_2^P$. Then
+
+\[
+x \in L \iff \exists y \forall z \; R(x,y,z)
+\]
+
+for some polynomial-time predicate $R$. Rewrite this as
+
+\[
+x \in L \iff \exists y \; \neg(\exists z \; \neg R(x,y,z)).
+\]
+
+An $NP^{NP}$ machine can guess $y$ and ask whether
+
+\[
+\exists z \; \neg R(x,y,z)
+\]
+
+holds. It accepts iff the oracle says no. Thus $L \in NP^{NP}$, and so
+
+\[
+\Sigma_2^P \subseteq NP^{NP}.
+\]
+
+Therefore,
+
+\[
+NP^{NP} = \Sigma_2^P.
+\]
+
+Next, by definition,
+
+\[
+\Delta_{k+1}^P = P^{\Sigma_k^P}.
+\]
+
+putting $k = 1$ gives
+
+\[
+\Delta_2^P = P^{\Sigma_1^P}.
+\]
+
+and since $\Sigma_1^P = NP$, this becomes
+
+\[
+\Delta_2^P = P^{NP}.
+\]
+
+Hence,
+
+\[
+P^{NP} = \Delta_2^P.
+\]
+
+Finally, we show that $NP^{NP^{NP}} = \Sigma_3^P$. Since
+
+\[
+NP^{NP} = \Sigma_2^P,
+\]
+
+we get
+
+\[
+NP^{NP^{NP}} = NP^{\Sigma_2^P}.
+\]
+
+Now let $L \in NP^{\Sigma_2^P}$. Then some NP machine $M$ with oracle $A \in \Sigma_2^P$ decides $L$.
+
+Since $A \in \Sigma_2^P$, there exists a polynomial-time predicate $S$ such that
+
+\[
+q \in A \iff \exists y \forall z \; S(q,y,z).
+\]
+
+Fix an input $x$ and an accepting branch of $M$. It asks only polynomially many oracle queries. For a yes-answer query $q$, we have
+
+\[
+\exists y \forall z \; S(q,y,z),
+\]
+
+so its witness can be guessed existentially. For a no-answer query $q$, we have
+
+\[
+\neg(\exists y \forall z \; S(q,y,z)) \iff \forall y \exists z \; \neg S(q,y,z).
+\]
+
+So no-answers contribute one universal block followed by one existential block. Together with the outer NP guess, this gives a formula of the form
+
+\[
+\exists u \forall v \exists w \; R'(x,u,v,w)
+\]
+
+for some polynomial-time predicate $R'$. Hence $L \in \Sigma_3^P$, so
+
+\[
+NP^{\Sigma_2^P} \subseteq \Sigma_3^P.
+\]
+
+Conversely, let $L \in \Sigma_3^P$. Then
+
+\[
+x \in L \iff \exists y \forall z \exists w \; R(x,y,z,w)
+\]
+
+for some polynomial-time predicate $R$. Rewrite this as
+
+\[
+x \in L \iff \exists y \; \neg(\exists z \forall w \; \neg R(x,y,z,w)).
+\]
+
+The statement
+
+\[
+\exists z \forall w \; \neg R(x,y,z,w)
+\]
+
+is a $\Sigma_2^P$ predicate. So an $NP^{\Sigma_2^P}$ machine can guess $y$ and ask whether
+
+\[
+\exists z \forall w \; \neg R(x,y,z,w)
+\]
+
+holds, accepting iff the oracle answers no.
+
+Hence $L \in NP^{\Sigma_2^P}$, so
+
+\[
+\Sigma_3^P \subseteq NP^{\Sigma_2^P}.
+\]
+
+Therefore,
+
+\[
+NP^{\Sigma_2^P} = \Sigma_3^P.
+\]
+
+Since $NP^{NP} = \Sigma_2^P$, we get
+
+\[
+NP^{NP^{NP}} = \Sigma_3^P.
+\]
+
+Hence proved.
+
+\end{document}
