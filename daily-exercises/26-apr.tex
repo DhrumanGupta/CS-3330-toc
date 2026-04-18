@@ -1,0 +1,49 @@
+\documentclass[11pt]{article}
+\input{_preamble}
+
+\title{Daily Exercise}
+\author{Dhruman Gupta}
+\date{26th April}
+
+\begin{document}
+
+\input{_exercise-header}
+Show that $SPACE(n) \neq SPACE(n^2)$.
+
+\textbf{Answer:}
+
+This follows directly from the Space Hierarchy Theorem.
+
+Take
+
+\[
+f(n) = n, \qquad g(n) = n^2.
+\]
+
+Both of these are space-constructible, and
+
+\[
+f(n) = o(g(n)).
+\]
+
+So by the Space Hierarchy Theorem,
+
+\[
+SPACE(f(n)) \subsetneq SPACE(g(n)).
+\]
+
+Substituting $f(n) = n$ and $g(n) = n^2$, we get
+
+\[
+SPACE(n) \subsetneq SPACE(n^2).
+\]
+
+In particular,
+
+\[
+SPACE(n) \neq SPACE(n^2).
+\]
+
+Hence proved.
+
+\end{document}
